@@ -44,7 +44,7 @@ private:
     bool readTileScheme(const QJsonObject& json, QString* err);
     bool createLayerRects(QString* err);
     bool generateTilesImage(QString* err);
-    QPixmap baseImg;
+    QImage baseImg;
     LayerDefinition layerDef;
     QList<Tile> tiles;
     QImage tilesImg;

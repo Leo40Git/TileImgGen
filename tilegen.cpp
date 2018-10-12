@@ -42,12 +42,11 @@ void TileGen::on_btnParse_clicked()
     const QString& baseImgN = QFileDialog::getOpenFileName(this, "Open base image", "", imgFilter);
     if (baseImgN.isEmpty())
         return;
-    QImage baseImgI = QImage(baseImgN);
-    if (baseImgI.isNull()) {
+    baseImg = QImage(baseImgN);
+    if (baseImg.isNull()) {
         error(QString("Failed to load base image \"%0\"!").arg(baseImgN), true);
         return;
     }
-    baseImg = QPixmap::fromImage(baseImgI);
     print(QString("Loaded base image \"%0\"").arg(baseImgN));
     const QString& txtFilter = "JSON files (*.json)";
     const QString& layerFileN = QFileDialog::getOpenFileName(this, "Open layer scheme", "", txtFilter);
@@ -290,26 +289,28 @@ bool TileGen::readTileScheme(const QJsonObject& json, QString* err) {
                 *err = errStart + "Has value for unknown layer \"" + layerKey + "\"";
                 return false;
             }
-            Layer layer = layerDef.layers[layerKey];
+            Layer* layer = &layerDef.layers[layerKey];
             const QString& layerVal = layerVals[layerKey].toString();
             bool checkVal = true;
             if (layerVal.isEmpty()) {
-                if (layer.allowNull)
+                if (layer->allowNull)
                     checkVal = false;
                 else {
                     *err = errStart + "Value for layer \"" + layerKey + "\" is null, but layer doesn't allow null";
                     return false;
                 }
             }
-            if (checkVal && !layer.values.contains(layerVal)) {
+            if (checkVal && !layer->values.contains(layerVal)) {
                 *err = errStart + "Value for layer \"" + layerKey + "\" is invalid";
                 return false;
             }
             tile[layerKey] = layerVal;
         }
-        for (int i = start; i < end + 1; i++) {
+        // dump tile
+        foreach (QString key, tile.keys())
+            qInfo() << key << tile[key];
+        for (int i = start; i < end + 1; i++)
             tiles[i] = tile;
-        }
     }
     if (tiles.size() != tileCount) {
         *err = QString("Generated tile count (%0) does not match TileCount (%1)").arg(tiles.size()).arg(tileCount);
@@ -330,17 +331,17 @@ bool TileGen::createLayerRects(QString* err) {
             *err = "Image too small, went over maximum Y value";
             return false;
         }
-        Layer layer = layerDef.layersOrdered[i];
-        QString layerKey = layer.name;
+        Layer* layer = &layerDef.layersOrdered[i];
+        QString layerKey = layer->name;
         qInfo() << "layer" << layerKey;
-        foreach (QString value, layer.values) {
+        foreach (QString value, layer->values) {
             if (h > maxH) {
                 *err = "Image too small, went over maximum Y value";
                 return false;
             }
             qInfo() << " value" << value;
-            layer.valueRects[value] = { w * tileSize, h * tileSize, tileSize, tileSize };
-            qInfo() << " rect" << layer.valueRects[value];
+            layer->valueRects[value] = { w * tileSize, h * tileSize, tileSize, tileSize };
+            qInfo() << " rect" << layer->valueRects[value];
             w++;
             if (w > maxW) {
                 w = 0;
@@ -349,6 +350,14 @@ bool TileGen::createLayerRects(QString* err) {
         }
         w = 0;
         h++;
+    }
+    // dump rects
+    for (int i = 0; i < layerDef.layersOrdered.size(); i++) {
+        Layer l = layerDef.layersOrdered[i];
+        qInfo() << "Dumping rects for layer" << l.name;
+        foreach (QString key, l.valueRects.keys()) {
+            qInfo() << key << l.valueRects[key];
+        }
     }
     return true;
 }
@@ -362,8 +371,8 @@ bool TileGen::generateTilesImage(QString* err) {
     QPainter tp(&tilesImg);
     int w = 0, h = 0;
     for (int i = 0; i < layerDef.layersOrdered.size(); i++) {
-        Layer l = layerDef.layersOrdered[i];
-        qInfo() << "layer" << l.name;
+        Layer* l = &layerDef.layersOrdered[i];
+        qInfo() << "layer" << l->name;
         for (int j = 0; j < tiles.size(); j++) {
             if (h > maxH) {
                 *err = "Calculation error??? Went over maximum Y value";
@@ -373,9 +382,11 @@ bool TileGen::generateTilesImage(QString* err) {
             qInfo() << " tile" << j;
             const QPoint& p = { w * tileSize, h * tileSize };
             qInfo() << " pos" << p;
-            const QString& lv = t[l.name];
+            const QString& lv = t[l->name];
             qInfo() << " value" << lv;
-            tp.drawPixmap(p, baseImg, l.valueRects[lv]);
+            qInfo() << " rect" << l->valueRects[lv];
+            if (!lv.isEmpty())
+                tp.drawImage(p, baseImg, l->valueRects[lv]);
             w++;
             if (w > maxW) {
                 w = 0;
