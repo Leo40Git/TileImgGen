@@ -1,0 +1,263 @@
+{
+	"SchemeType": "Tile",
+	"LayerSchemeName": "Doukutsu",
+	"TileCount": 256,
+	"Tiles": [
+		{
+			"Start": 1,
+			"End": 31,
+			"LayerValues": {
+				"Layer": "Back"
+			}
+		},
+		{
+			"Start": 2,
+			"LayerValues": {
+				"BG": "Water"
+			}
+		},
+		{
+			"Start": 3,
+			"End": 4,
+			"LayerValues": {
+				"Attrib": "NoNPC+"
+			}
+		},
+		{
+			"Start": 5,
+			"LayerValues": {
+				"Attrib": "NoBullet"
+			}
+		},
+		{
+			"Start": 32,
+			"End": 63,
+			"LayerValues": {
+				"BG": "NoDraw"
+			}
+		},
+		{
+			"Start": 64,
+			"End": 255,
+			"LayerValues": {
+				"Layer": "Front"
+			}
+		},
+		{
+			"Start": 65,
+			"LayerValues": {
+				"Shape": "Solid"
+			}
+		},
+		{
+			"Start": 66,
+			"LayerValues": {
+				"Attrib": "Hazard"
+			}
+		},
+		{
+			"Start": 67,
+			"LayerValues": {
+				"BG": "Breakable"
+			}
+		},
+		{
+			"Start": 68,
+			"LayerValues": {
+				"Shape": "Solid",
+				"Attrib": "NoNPC"
+			}
+		},
+		{
+			"Start": 70,
+			"LayerValues": {
+				"Shape": "Solid",
+				"Attrib": "NoNPC+"
+			}
+		},
+		{
+			"Start": 80,
+			"LayerValues": {
+				"Shape": "SlopeUL1"
+			}
+		},
+		{
+			"Start": 81,
+			"LayerValues": {
+				"Shape": "SlopeUL2"
+			}
+		},
+		{
+			"Start": 82,
+			"LayerValues": {
+				"Shape": "SlopeUR1"
+			}
+		},
+		{
+			"Start": 83,
+			"LayerValues": {
+				"Shape": "SlopeUR2"
+			}
+		},
+		{
+			"Start": 84,
+			"LayerValues": {
+				"Shape": "SlopeLL1"
+			}
+		},
+		{
+			"Start": 85,
+			"LayerValues": {
+				"Shape": "SlopeLL2"
+			}
+		},
+		{
+			"Start": 86,
+			"LayerValues": {
+				"Shape": "SlopeLR1"
+			}
+		},
+		{
+			"Start": 87,
+			"LayerValues": {
+				"Shape": "SlopeLR2"
+			}
+		},
+		{
+			"Start": 96,
+			"LayerValues": {
+				"BG": "Water"
+			}
+		},
+		{
+			"Start": 97,
+			"LayerValues": {
+				"Shape": "Solid"
+			}
+		},
+		{
+			"Start": 98,
+			"LayerValues": {
+				"BG": "Water",
+				"Attrib": "Hazard"
+			}
+		},
+		{
+			"Start": 100,
+			"LayerValues": {
+				"Shape": "Solid",
+				"Attrib": "NoNPC+"
+			}
+		},
+		{
+			"Start": 112,
+			"End": 119,
+			"LayerValues": {
+				"BG": "Water"
+			}
+		},
+		{
+			"Start": 112,
+			"LayerValues": {
+				"Shape": "SlopeUL1"
+			}
+		},
+		{
+			"Start": 113,
+			"LayerValues": {
+				"Shape": "SlopeUL2"
+			}
+		},
+		{
+			"Start": 114,
+			"LayerValues": {
+				"Shape": "SlopeUR1"
+			}
+		},
+		{
+			"Start": 115,
+			"LayerValues": {
+				"Shape": "SlopeUR2"
+			}
+		},
+		{
+			"Start": 116,
+			"LayerValues": {
+				"Shape": "SlopeLL1"
+			}
+		},
+		{
+			"Start": 117,
+			"LayerValues": {
+				"Shape": "SlopeLL2"
+			}
+		},
+		{
+			"Start": 118,
+			"LayerValues": {
+				"Shape": "SlopeLR1"
+			}
+		},
+		{
+			"Start": 119,
+			"LayerValues": {
+				"Shape": "SlopeLR2"
+			}
+		},
+		{
+			"Start": 128,
+			"LayerValues": {
+				"Shape": "ArrowL"
+			}
+		},
+		{
+			"Start": 129,
+			"LayerValues": {
+				"Shape": "ArrowU"
+			}
+		},
+		{
+			"Start": 130,
+			"LayerValues": {
+				"Shape": "ArrowR"
+			}
+		},
+		{
+			"Start": 131,
+			"LayerValues": {
+				"Shape": "ArrowD"
+			}
+		},
+		{
+			"Start": 160,
+			"End": 163,
+			"LayerValues": {
+				"BG": "Water"
+			}
+		},
+		{
+			"Start": 160,
+			"LayerValues": {
+				"Shape": "ArrowL"
+			}
+		},
+		{
+			"Start": 161,
+			"LayerValues": {
+				"Shape": "ArrowU"
+			}
+		},
+		{
+			"Start": 162,
+			"LayerValues": {
+				"Shape": "ArrowR"
+			}
+		},
+		{
+			"Start": 163,
+			"LayerValues": {
+				"Shape": "ArrowD"
+			}
+		}
+	]
+}

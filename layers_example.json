@@ -1,0 +1,31 @@
+{
+	"SchemeType": "Layer",
+	"SchemeName": "Doukutsu",
+	"TileSize": 16,
+	"TilesPerRow": 16,
+	"Layers": [
+		{
+			"Name": "BG",
+			"AllowNull": false,
+			"Values": ["Normal", "Water", "Breakable", "NoDraw"],
+			"DefaultValue": "Normal"
+		},
+		{
+			"Name": "Shape",
+			"Values": ["Solid",
+				"SlopeUL1", "SlopeUL2",
+				"SlopeUR1", "SlopeUR2",
+				"SlopeLL1", "SlopeLL2",
+				"SlopeLR1", "SlopeLR2",
+				"ArrowL", "ArrowU", "ArrowR", "ArrowD"]
+		},
+		{
+			"Name": "Layer",
+			"Values": ["Back", "Front"]
+		},
+		{
+			"Name": "Attrib",
+			"Values": ["NoNPC", "NoNPC+", "NoBullet", "Hazard"]
+		}
+	]
+}

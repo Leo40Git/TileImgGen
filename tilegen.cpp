@@ -36,13 +36,15 @@ void TileGen::error(const QString &message, bool msgBox) {
 
 void TileGen::on_btnParse_clicked()
 {
+    layerDef = LayerDefinition();
+    tiles.clear();
     ui->pteOut->clear();
     error("New parse session!");
     const QString& imgFilter = "Image files (*.png *.bmp)";
     const QString& baseImgN = QFileDialog::getOpenFileName(this, "Open base image", "", imgFilter);
     if (baseImgN.isEmpty())
         return;
-    baseImg = QImage(baseImgN);
+    baseImg = QImage(baseImgN).convertToFormat(QImage::Format_ARGB32);
     if (baseImg.isNull()) {
         error(QString("Failed to load base image \"%0\"!").arg(baseImgN), true);
         return;
@@ -282,7 +284,11 @@ bool TileGen::readTileScheme(const QJsonObject& json, QString* err) {
         }
         const QJsonObject& layerVals = tileDef["LayerValues"].toObject();
         errStart = "Tiles[" + QString("%0").arg(i) + "].LayerValues: ";
-        Tile tile = Tile(layerDef.defaultTile);
+        Tile tile;
+        if (tiles.count() > start)
+            tile = Tile(tiles[start]);
+        else
+            tile = Tile(layerDef.defaultTile);
         foreach (QString layerKey, layerVals.keys()) {
             qInfo() << "layerkey" << layerKey;
             if (!layerDef.layers.contains(layerKey)) {
@@ -312,8 +318,8 @@ bool TileGen::readTileScheme(const QJsonObject& json, QString* err) {
         for (int i = start; i < end + 1; i++)
             tiles[i] = tile;
     }
-    if (tiles.size() != tileCount) {
-        *err = QString("Generated tile count (%0) does not match TileCount (%1)").arg(tiles.size()).arg(tileCount);
+    if (tiles.count() != tileCount) {
+        *err = QString("Generated tile count (%0) does not match TileCount (%1)").arg(tiles.count()).arg(tileCount);
         return false;
     }
     return true;
@@ -365,7 +371,7 @@ bool TileGen::createLayerRects(QString* err) {
 bool TileGen::generateTilesImage(QString* err) {
     const int tileSize = layerDef.tileSize;
     const int maxW = layerDef.tilesPerRow - 1;
-    const int maxH = tiles.size() / maxW - 1;
+    const int maxH = tiles.count() / maxW - 1;
     tilesImg = QImage((maxW + 1) * tileSize, maxH * tileSize, QImage::Format_ARGB32);
     tilesImg.fill(qRgba(0, 0, 0, 0));
     QPainter tp(&tilesImg);
@@ -373,7 +379,7 @@ bool TileGen::generateTilesImage(QString* err) {
     for (int i = 0; i < layerDef.layersOrdered.size(); i++) {
         Layer l = layerDef.layersOrdered[i];
         qInfo() << "layer" << l.name;
-        for (int j = 0; j < tiles.size(); j++) {
+        for (int j = 0; j < tiles.count(); j++) {
             if (h > maxH) {
                 *err = "Calculation error??? Went over maximum Y value";
                 return false;
