@@ -371,8 +371,8 @@ bool TileGen::generateTilesImage(QString* err) {
     QPainter tp(&tilesImg);
     int w = 0, h = 0;
     for (int i = 0; i < layerDef.layersOrdered.size(); i++) {
-        Layer* l = &layerDef.layersOrdered[i];
-        qInfo() << "layer" << l->name;
+        Layer l = layerDef.layersOrdered[i];
+        qInfo() << "layer" << l.name;
         for (int j = 0; j < tiles.size(); j++) {
             if (h > maxH) {
                 *err = "Calculation error??? Went over maximum Y value";
@@ -382,11 +382,11 @@ bool TileGen::generateTilesImage(QString* err) {
             qInfo() << " tile" << j;
             const QPoint& p = { w * tileSize, h * tileSize };
             qInfo() << " pos" << p;
-            const QString& lv = t[l->name];
+            const QString& lv = t[l.name];
             qInfo() << " value" << lv;
-            qInfo() << " rect" << l->valueRects[lv];
+            qInfo() << " rect" << l.valueRects[lv];
             if (!lv.isEmpty())
-                tp.drawImage(p, baseImg, l->valueRects[lv]);
+                tp.drawImage(p, baseImg, l.valueRects[lv]);
             w++;
             if (w > maxW) {
                 w = 0;
