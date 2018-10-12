@@ -363,7 +363,7 @@ bool TileGen::createLayerRects(QString* err) {
 }
 
 bool TileGen::generateTilesImage(QString* err) {
-    const int tileSize = layerDef.tilesPerRow;
+    const int tileSize = layerDef.tileSize;
     const int maxW = layerDef.tilesPerRow - 1;
     const int maxH = tiles.size() / maxW - 1;
     tilesImg = QImage((maxW + 1) * tileSize, maxH * tileSize, QImage::Format_ARGB32);
